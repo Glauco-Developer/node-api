@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const courses = require('./routes/courses');
 const users = require('./routes/users');
 const app = express();
@@ -9,6 +10,7 @@ mongoose.connect('mongodb://localhost/node-backend')
     .catch(err => console.log('could not connect to mongodb', err))
 
 app.use(express.json());
+app.use(cors());
 app.use('/api/courses', courses);
 app.use('/api/users', users);
 

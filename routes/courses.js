@@ -12,18 +12,21 @@ router.post('/', async (req, res) =>{
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
-    let course = new Course({ title: req.body.title, slug: req.body.slug });
+    let course = new Course({
+        title: req.body.title,
+        slug: req.body.slug,
+        description: req.body.description
+    });
     course = await course.save();
 
     res.send(course);
 });
 
 router.put('/:id', async (req, res) => {
-
     const { error } = validate(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-
-    const course = await Course.findByIdAndUpdate(req.params.id, { title: req.body.title }, { new: true });
+    // if(error) return res.status(400).send(error.details[0].message);
+    
+    const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if(!course) return res.status(404).send('The course with the given ID was not found');
 
     res.send(course);
