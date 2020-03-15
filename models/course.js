@@ -6,11 +6,13 @@ const Course = mongoose.model('Course', new mongoose.Schema({
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 50
+        maxlength: 50,
+        unique: true
     },
     slug: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,
@@ -18,14 +20,14 @@ const Course = mongoose.model('Course', new mongoose.Schema({
     },
 }));
 
-function validateCourses(course) {
+function validateCourse(course) {
     const schema = {
         title: Joi.string().min(5).required(),
         slug: Joi.string().required(),
-        description: Joi.string().required()
+        description: Joi.optional()
     };
     return Joi.validate(course, schema);
 }
 
 exports.Course = Course;
-exports.validate = validateCourses;
+exports.validate = validateCourse;
